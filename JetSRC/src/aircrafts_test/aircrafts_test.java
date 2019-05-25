@@ -2,7 +2,6 @@ package aircrafts_test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import aircrafts.Aircraft;
 import stores.Store;

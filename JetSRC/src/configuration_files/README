@@ -1,0 +1,31 @@
+Aircraft configuration takes place from the included text files as follows.
+
+- aircraft_types.txt 
+	This file includes the name of each supported aircraft.
+	Aircraft are separated by new lines
+	example:
+	CF-18
+	F-16
+	F-22
+
+
+- store_codes.txt
+	This file includes the name of each supported store.
+	Stores are separated by new line and must include:
+		a unique number (1-98), 
+		unique name, 
+		type (A-A, A-G, other),
+		crjs values (carriage, release, jettison, seperation)
+	example:
+	4|GBU-12|A-G|1.1,0.9,0.9,2G-90
+
+		
+- aircraft_configurations.txt
+	This file includes the allowed configurations for the designated aircraft.
+	Configurations are represented in code form separated by a new line (text in brackets is explanation):
+		CF-18 (type must match string in aircraft_types.txt)
+		9 (number of pylons)
+		1 2 3 99 (pylon 1 accepts store code 1, 2 and 3 - the 99 informs the interpreter to move to next store)
+	example:
+	CF-18 9 1 2 99 4 5 6 7 99 3 4 5 6 7 99 6 99 3 4 5 6 7 99 4 5 6 7 99 1 2 99
+		
