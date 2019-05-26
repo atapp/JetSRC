@@ -36,4 +36,8 @@ public abstract class Store {
 	public void setCarriageLimit(Double carriageLimit) {
 		this.carriageLimit = carriageLimit;
 	}
+	
+	public String toString() {
+		return this.name;
+	}
 }

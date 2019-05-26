@@ -1,14 +1,18 @@
-package file_manager;
+package configuration_manager;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class FileImporterTest {
+class ConfigurationManagerTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		try {
+			ConfigurationManager config = new ConfigurationManager();
+			config.setup(true);
+		} catch (Exception e) {
+			fail("Config manager threw and exception");
+		}			
 	}
-
 }

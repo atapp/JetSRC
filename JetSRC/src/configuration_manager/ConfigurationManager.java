@@ -3,16 +3,11 @@
 package configuration_manager;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import utils.StdOut;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 
 public class ConfigurationManager {
 	
@@ -32,36 +27,6 @@ public class ConfigurationManager {
 	public HashMap<Integer, String> storesCodes = new HashMap<>();
 	
 	public ConfigurationManager() {}
-	
-	// ConfigFileFormatExtension is a exception class to help deal with the complex formatting required in the configuration files.
-	private class ConfigFileFormatException extends Exception{
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		
-		// ConfigFileException constructor
-		// precondition : two strings are passed to the exception
-		// postcondition 1 : a date stamped error log is saved 
-		// postcondition 2 : a string is printed on the console
-		ConfigFileFormatException(String file, String error){
-			super(error);
-			try (PrintWriter outfilepw = new PrintWriter("src/configuration_files/error_log.txt");) 
-		    {  
-				Date myDate = new Date();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
-				String myDateString = sdf.format(myDate);
-				outfilepw.format("Config File Error at %s at file %s with error %s", myDateString, file, error); // postcondition 1
-		                 
-		    }
-		    catch (FileNotFoundException ex)
-		    {
-		        ex.printStackTrace();
-		    }
-			StdOut.println("Formatting excpetion in the "+ file +" configuration file:"); // postcondition 2
-			StdOut.println(error);
-		}
-	}
 	
 	// helper method to call all sub methods and catch errors
 	public void setup() {
@@ -89,15 +54,27 @@ public class ConfigurationManager {
 		}
 	}
 	
+	// ONLY FOR TESTS
+	public void setup(boolean test) throws FileNotFoundException, ConfigFileFormatException{
+		// setup aircraft types file
+		
+			this.getAircraftTypes();
+		
+			this.configureWeaponCodes();
+		
+			this.configureAircraft();
+		
+	}
+	
 	// getAircraftMethod - retrieves the aircraft types from a file
 	// Precondition : a correctly formatted file is saved at AIRCRAFT_TYPES_FILE
 	// Postcondition : C1 (aircraftTypes) is filled
 	private void getAircraftTypes() throws FileNotFoundException, ConfigFileFormatException {
 		Scanner infile;
 		infile = new Scanner(new File(AIRCRAFT_TYPES_FILE)); // precondition (throws FileNotFoundException)
-		while (infile.hasNext())
+		while (infile.hasNextLine())
 	       {         
-			aircraftTypes.add(infile.next());
+			aircraftTypes.add(infile.nextLine());
 	       }
 
 	    infile.close();
@@ -148,10 +125,11 @@ public class ConfigurationManager {
 		       {
 				String line = infile.nextLine();
 				String[] list = line.split(" ");
+				String aircraftType = list[0]+ " " + list[1];
 				ArrayList<Integer> config = new ArrayList<>();
-				if (aircraftTypes.contains(list[0])) { // check aircraft is in aircraft list
+				if (aircraftTypes.contains(aircraftType)) { // check aircraft is in aircraft list
 					try {
-						for (int i = 1; i < list.length; i++) {
+						for (int i = 2; i < list.length; i++) { // start at 2nd value and move along
 							Integer integer = Integer.valueOf(list[i]);
 							config.add(integer);
 						}
@@ -163,7 +141,7 @@ public class ConfigurationManager {
 								"Error in the file format, make sure all items after aircraft name are numbers."
 								);
 					}
-					aircraftConfigs.put(list[0], config);
+					aircraftConfigs.put(aircraftType, config);
 					
 				} else {
 					infile.close();

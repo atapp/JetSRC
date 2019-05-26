@@ -63,10 +63,30 @@ public class Aircraft {
 		return Arrays.copyOfRange(storesForPylon, 1, storesForPylon.length);
 	}
 
-	public void addStoreToPylon(int pylon, Store store) {
+	public void addStoreToPylon(Integer pylon, Store store) {
 		Pylon p = pylons.get(pylon);
 		p.addStores(store);
 		pylons.replace(pylon, p);
+	}
+	
+	public String toString() {
+		StringBuilder returnStringBuilder = new StringBuilder();
+		for (int i = 0; i < this.getNumberOfPylons(); i++) {
+			Pylon pylon = this.pylons.get(i+1);
+			returnStringBuilder.append("Pylon ");
+			returnStringBuilder.append(pylon.location);
+			returnStringBuilder.append(": ");
+			if (pylon.getStores().size() > 0){
+				for (int j = 0; j < pylon.getStores().size(); j++) {
+					returnStringBuilder.append(pylon.getStores().get(j).getType());
+					returnStringBuilder.append("\n");
+				}
+			} else {
+				returnStringBuilder.append("Empty");
+				returnStringBuilder.append("\n");
+			}
+		}
+		return returnStringBuilder.toString();
 	}
 	
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import stores.Store;
 
 class Pylon {
-	private int location; // location on aircraft
+	public int location; // location on aircraft
 	private ArrayList<Store> stores = new ArrayList<>(); // stores on pylon
 	private int capacity; // pylon capacity
 	
@@ -26,5 +26,4 @@ class Pylon {
 	public void removeStores() {
 		this.stores.clear();
 	}
-	
 }
