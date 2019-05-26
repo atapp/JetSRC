@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 public class ConfigurationManager {
 	
 	// CONSTANTS
-	
 	final static String AIRCRAFT_TYPES_FILE = "src/configuration_files/aircraft_types.txt";
 	final static String STORES_CODES_FILE = "src/configuration_files/store_codes.txt";
 	final static String AIRCRAFT_CONFIGURATIONS_FILE = "src/configuration_files/aircraft_configurations.txt";
