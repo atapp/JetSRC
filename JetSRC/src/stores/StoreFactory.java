@@ -3,10 +3,21 @@ package stores;
 import configuration_manager.ConfigFileFormatException;
 import utils.StringIsValidDouble;
 
+// Store Factory for abstract type Store creation
+
 public class StoreFactory {
+	
+	// Factory method for Store creation
+	// Precondition: String type is A-A, A-G or Other | String name is name of store | String releaseLimits is comma delimited list of limits
+	// Postcondition: A new sub class of Store is created
+	// Throws: ConfigFileFormatException
+	
 	public static Store getStore(String type, String name, String releaseLimits) throws ConfigFileFormatException {
-		// crjs values (carriage, release, jettison, seperation)
+		
+		// split release limits into array
 		String[] releaseLimitArray= releaseLimits.split(",");
+		
+		// Check release limits are valid (TODO: move to ConfigurationManager)
 		if (!(releaseLimitArray.length == 4)) {
 			throw new ConfigFileFormatException("Store config file", "Release limits are formatted incorrectly, make sure they are decimal mach numbers seperated by commas");
 		}
@@ -15,6 +26,8 @@ public class StoreFactory {
 				throw new ConfigFileFormatException("Store config file", "Release limits are formatted incorrectly, make sure they are decimal mach numbers seperated by commas");
 			}
 		}
+		
+		// Return corresponding subclass 
 		if ("A-A".equalsIgnoreCase(type)) {
 			return new AAStore(name, Double.valueOf(releaseLimitArray[0]), Double.valueOf(releaseLimitArray[2]));
 		} else if ("A-G".equalsIgnoreCase(type)) {

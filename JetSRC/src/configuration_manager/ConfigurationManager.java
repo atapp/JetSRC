@@ -113,26 +113,30 @@ public class ConfigurationManager {
 		       infile.close();
 	}
 
-	// configureWeaponCodes - retrieves the weapon codes from a file
-	// Precondition : a correctly formatted file is saved at STORES_CODES_FILE
-	// Postcondition : C3 (storesCodes) is filled
+	// configureAircraft - retrieves the aircraft configurations from a file
+	// Precondition : a correctly formatted file is saved at AIRCRAFT_CONFIGURATIONS_FILE
+	// Postcondition : C2 (aircraftConfigs) is filled
 	private void configureAircraft() throws FileNotFoundException, ConfigFileFormatException{
 		Scanner infile;
 		
-			infile = new Scanner(new File(AIRCRAFT_CONFIGURATIONS_FILE));
+			infile = new Scanner(new File(AIRCRAFT_CONFIGURATIONS_FILE)); // may throw FileNotFoundException
 			while (infile.hasNextLine())
 		       {
 				String line = infile.nextLine();
 				String[] list = line.split(" ");
 				String aircraftType = list[0]+ " " + list[1];
 				ArrayList<Integer> config = new ArrayList<>();
-				if (aircraftTypes.contains(aircraftType)) { // check aircraft is in aircraft list
+				
+				// check aircraft is in aircraft list, if not throws ConfigFileFormatException
+				if (aircraftTypes.contains(aircraftType)) {
+					
+					// check values can be computed to expected integers, if not throws ConfigFileFormatException
 					try {
 						for (int i = 2; i < list.length; i++) { // start at 2nd value and move along
 							Integer integer = Integer.valueOf(list[i]);
 							config.add(integer);
 						}
-					} catch (NumberFormatException e) {
+					} catch (NumberFormatException e) { // throw ConfigFileFormatEception
 						infile.close();
 						config.clear();
 						throw new ConfigFileFormatException(

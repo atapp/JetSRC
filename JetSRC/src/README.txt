@@ -1,3 +1,2 @@
-For Assignment 1: 
-Run main from aircraft_test.java
-Polymorphism in 'type' of Store if unclear.
+For Assignment 2: 
+Run main from main/Jet_SRC.java
