@@ -7,6 +7,7 @@ import configuration_manager.ConfigFileFormatException;
 import configuration_manager.ConfigurationManager;
 import stores.Store;
 import stores.StoreFactory;
+import utils.GenericSingletonFactory;
 import utils.StdIn;
 import utils.StdOut;
 import utils.StringIsValidInt;
@@ -31,12 +32,14 @@ public class Jet_SRC {
 			
 		} else { // multiple aircraft available so ask which one
 			printWelcomeMessage();
-			workingAircraftString = config.aircraftTypes.get(askUserWhichAircraft());
+			int userSelectedAircraft = askUserWhichAircraft();
+			workingAircraftString = config.aircraftTypes.get(userSelectedAircraft);
 		}
 		
 		// create aircraft with configuration selected
-		aircraft = new Aircraft(workingAircraftString);
+		aircraft = GenericSingletonFactory.getInstance(Aircraft.class);
 		aircraft.configure(
+				workingAircraftString,
 				// corresponding config file 
 				config.aircraftConfigs.get(workingAircraftString)
 				);
@@ -57,10 +60,12 @@ public class Jet_SRC {
 		
 	}
 	
+	// METHODS
+	
 	// add store to aircraft - adds a new store to the aircraft
 	// Precondition - C2 (aircraft) is initialized and setup, storeInput is a valid String array [pylonSelected, storeSelected].
 	// Postcondition : store is added to aircraft returns true
-	static boolean addStoreToAircraft(String[] storeInput) {
+	private static boolean addStoreToAircraft(String[] storeInput) {
 		Store store;
 		Integer storeCode = Integer.valueOf(storeInput[1]);
 		String storeFromConfig = config.storesCodes.get(storeCode);
@@ -78,7 +83,7 @@ public class Jet_SRC {
 	// askUserWhichStoreCode - gets the users requested store code from those available.
 	// Precondition : C1 (config) is initialized and setup, C2 (aircraft) is initialized and setup
 	// Postcondition : int is returned indicating the selected store type 
-	static String[] askUserWhichStoreCode() {
+	private static String[] askUserWhichStoreCode() {
 		String pylonSelected; // part of return value
 		String storeSelected; // part of return value
 		int numberOfPylons = aircraft.getNumberOfPylons();
@@ -120,7 +125,7 @@ public class Jet_SRC {
 	// askUserWhichAircraft - gets the users requested aircraft.
 	// Precondition : C1 (config) is initialized and setup
 	// Postcondition : int is returned indicating the selected aircraft type 
-	static int askUserWhichAircraft() {
+	private static int askUserWhichAircraft() {
 		StdOut.println("Pick an aircraft by typing associated number:");
 		for (int i = 1; i < config.aircraftTypes.size(); i++) { // precondition
 			StdOut.println(i + ": " + config.aircraftTypes.get(i));
@@ -130,13 +135,13 @@ public class Jet_SRC {
 	}
 	
 	// Welcome message helper
-	static void printWelcomeMessage() {
+	private static void printWelcomeMessage() {
 		StdOut.print(
 				"#################################################\n\nWelcome to JetSRC\n");
 	}
 	
 	// Welcome message helper (overloaded) if one aircraft
-	static void printWelcomeMessage(String aircraft) {
+	private static void printWelcomeMessage(String aircraft) {
 		StdOut.print(
 				"#################################################\n\nWelcome to JetSRC (" + aircraft +")\n");
 	}

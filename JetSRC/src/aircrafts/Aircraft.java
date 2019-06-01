@@ -13,13 +13,11 @@ public class Aircraft {
 	Set<String> approvedConfigs = new HashSet<>();
 	HashMap<String, Double> currentParameters = new HashMap<>();
 	
-	public Aircraft(String name) {
-		this.name = name;
-		//configure(configfile);
-	}
+	public Aircraft() {}
 	
 	// precondition - a config list with details of pylons and approved configurations
-	public void configure(ArrayList<Integer> config) {
+	public void configure(String name, ArrayList<Integer> config) {
+		this.name = name;
 		int numberPylons = config.get(0);
 		// config file has number of pylons as first entry
 		for (int i = 1; i < numberPylons + 1; i++) {
