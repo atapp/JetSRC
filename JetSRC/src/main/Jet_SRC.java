@@ -36,22 +36,48 @@ public class Jet_SRC {
 			workingAircraftString = config.aircraftTypes.get(userSelectedAircraft);
 		}
 		
-		// create aircraft with configuration selected
-		aircraft = GenericSingletonFactory.getInstance(Aircraft.class);
-		aircraft.configure(
-				workingAircraftString,
-				// corresponding config file 
-				config.aircraftConfigs.get(workingAircraftString)
-				);
+		if (config.getAllSavedAircraft().length > 0) {
+			StdOut.println("Would you like to open a saved aircraft? n/y");
+			String selectedString = StdIn.readLine();
+			if (selectedString.equalsIgnoreCase("y")) {
+				while(true) {
+					int count = 0;
+					for (String s: config.getAllSavedAircraft()) {
+						StdOut.println(count + ": " + s);
+						count ++;
+					}
+					try {
+						Integer selected = Integer.valueOf(StdIn.readLine());
+						String aircraftFileName = config.getAllSavedAircraft()[selected];
+						aircraft = config.retrieveSavedAircraft(aircraftFileName);
+						break;
+					} catch (Exception e) {
+						StdOut.println("Invalid selection");
+					}
+				}	
+				
+			} else {
+				// create aircraft with configuration selected
+				loadNewAircraft(workingAircraftString);
+				
+			}
+		} else {
+			// create aircraft with configuration selected
+			loadNewAircraft(workingAircraftString);
+			
+		}
+		
 		
 		// add stores (repeat till calculation)
 		boolean addingStores = true;
 		while(addingStores) {
 			String[] storeCode = askUserWhichStoreCode(); // returns [pylon,store]
 			boolean storeAdded = addStoreToAircraft(storeCode); // returns true if valid
+			boolean savedAircraft = config.saveAircraft(aircraft);
 			if (storeAdded) {
 				StdOut.println("Store added!");
 				StdOut.println(aircraft.toString());
+				StdOut.println("Aircraft saved is: " + savedAircraft);
 			} else {
 				StdOut.println("Problem adding store, try again.");
 			}	
@@ -144,6 +170,18 @@ public class Jet_SRC {
 	private static void printWelcomeMessage(String aircraft) {
 		StdOut.print(
 				"#################################################\n\nWelcome to JetSRC (" + aircraft +")\n");
+	}
+	
+	// load new aircraft
+	private static void loadNewAircraft(String wString) {
+		// create aircraft with configuration selected
+				aircraft = GenericSingletonFactory.getInstance(Aircraft.class);
+				aircraft.configure(
+						wString,
+						// corresponding config file 
+						config.aircraftConfigs.get(wString)
+						);
+				
 	}
 
 }

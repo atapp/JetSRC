@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import aircrafts.Aircraft;
+import utils.StdOut;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Path;
 
 public class ConfigurationManager {
 	
@@ -15,6 +21,7 @@ public class ConfigurationManager {
 	final static String AIRCRAFT_TYPES_FILE = "src/configuration_files/aircraft_types.txt";
 	final static String STORES_CODES_FILE = "src/configuration_files/store_codes.txt";
 	final static String AIRCRAFT_CONFIGURATIONS_FILE = "src/configuration_files/aircraft_configurations.txt";
+	final static String AIRCRAFT_SAVE_PATH = "src/saved_aircraft/";
 	
 	// CLASS INVARIANTS
 	
@@ -156,6 +163,63 @@ public class ConfigurationManager {
 	       }
 
 	       infile.close();
+		
+	}
+	
+	// saveAircraft - saves the aircraft for later retreval
+	// Precondition : A aircraft object a
+	// Postcondition : a boolean true is returned if successful
+	
+	public boolean saveAircraft(Aircraft a){
+		boolean returnBoolean = false;
+		String fileName = a.headerForFile();
+		String fullPath = AIRCRAFT_SAVE_PATH.concat(fileName);
+		File file = new File(fullPath);
+		try {
+			if (file.createNewFile()) {
+				XMLSerializer xmlSerializer = new XMLSerializer();
+				returnBoolean = xmlSerializer.serialize(a, file.toPath());
+			} else {
+				StdOut.println("Config file not saved, file already exists.");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return returnBoolean;
+		
+	}
+	
+	// getAllSavedAircraft - get a list of saved aircraft
+	// Precondition : 
+	// Postcondition : a array of strings (file name) of saved aircraft is returned
+	
+	public String[] getAllSavedAircraft() {
+		File savedAircraftFolder = new File(AIRCRAFT_SAVE_PATH);
+		String[] savedAircraftArrayStrings = savedAircraftFolder.list();
+		return savedAircraftArrayStrings;
+	}
+	
+	// retrievedSavedAircraft - get a list of saved aircraft
+	// Precondition : a valid file name of a saved aircraft
+	// Postcondition : a object of type Aircraft is returned if found
+	// Throws: FileNotFoundException
+	public Aircraft retrieveSavedAircraft(String name) throws FileNotFoundException{
+		XMLSerializer xmlSerializer = new XMLSerializer();
+		Aircraft aircraft = null;
+		String fullPath = AIRCRAFT_SAVE_PATH.concat(name);
+		File file = new File(fullPath);
+		if (file.canRead()) {
+			try {
+				aircraft = xmlSerializer.deSerialize(aircraft, file.toPath());
+			} catch (Exception e) {
+				StdOut.println("Problem deserializing aircraft in ConfigManager");
+				e.printStackTrace();
+			}
+		} else {
+			throw new FileNotFoundException();
+			
+		}
+		return aircraft;
 		
 	}
 	

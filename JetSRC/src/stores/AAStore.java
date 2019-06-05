@@ -2,6 +2,10 @@ package stores;
 
 public class AAStore extends Store implements Jettisonable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5L;
 	private String type = "A/A Store";
 	private Double jettisonLimitDouble;
 	
@@ -9,6 +13,8 @@ public class AAStore extends Store implements Jettisonable {
 		super(name, carriageLimit);
 		this.jettisonLimitDouble = jettisonLimit;
 	}
+	
+	public AAStore() {};
 
 	@Override
 	public Double getJettisonLimit() {
@@ -30,6 +36,18 @@ public class AAStore extends Store implements Jettisonable {
 	@Override
 	public String getType() {
 		return type;
+	}
+
+	public Double getJettisonLimitDouble() {
+		return jettisonLimitDouble;
+	}
+
+	public void setJettisonLimitDouble(Double jettisonLimitDouble) {
+		this.jettisonLimitDouble = jettisonLimitDouble;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

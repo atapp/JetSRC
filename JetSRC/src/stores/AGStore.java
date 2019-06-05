@@ -2,6 +2,10 @@ package stores;
 
 public class AGStore extends Store implements Jettisonable, Releasable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8263851923551586662L;
 	private String type = "A/G Store";
 	private Double jettisonLimitDouble;
 	private Double releaseLimitDouble;
@@ -13,6 +17,8 @@ public class AGStore extends Store implements Jettisonable, Releasable {
 		this.releaseLimitDouble = releaseLimit;
 		this.seperationString = seperation;
 	}
+	
+	public AGStore() {};
 
 	@Override
 	public Double getReleaseLimit() {
@@ -46,6 +52,30 @@ public class AGStore extends Store implements Jettisonable, Releasable {
 	
 	public String getSeperationString() {
 		return this.seperationString;
+	}
+
+	public Double getJettisonLimitDouble() {
+		return jettisonLimitDouble;
+	}
+
+	public void setJettisonLimitDouble(Double jettisonLimitDouble) {
+		this.jettisonLimitDouble = jettisonLimitDouble;
+	}
+
+	public Double getReleaseLimitDouble() {
+		return releaseLimitDouble;
+	}
+
+	public void setReleaseLimitDouble(Double releaseLimitDouble) {
+		this.releaseLimitDouble = releaseLimitDouble;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setSeperationString(String seperationString) {
+		this.seperationString = seperationString;
 	}
 	
 

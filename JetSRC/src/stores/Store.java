@@ -3,12 +3,18 @@
  */
 package stores;
 
+import java.io.Serializable;
+
 /**
  * To represent a aircraft store
  * @author simonhogg
  *
  */
-public abstract class Store {
+public abstract class Store implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3L;
 	protected String name = "Generic Store";
 	private Double carriageLimit;
 	
@@ -39,5 +45,13 @@ public abstract class Store {
 	
 	public String toString() {
 		return this.name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

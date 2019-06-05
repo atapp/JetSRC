@@ -1,5 +1,6 @@
 package aircrafts;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,7 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 import stores.Store;
 
-public class Aircraft {
+public class Aircraft implements Serializable {
+	
+	private static final long serialVersionUID = 2996265557227528324L;
+	
 	String name = new String();
 	HashMap<Integer, Pylon> pylons = new HashMap<>();
 	Set<String> approvedConfigs = new HashSet<>();
@@ -67,6 +71,25 @@ public class Aircraft {
 		pylons.replace(pylon, p);
 	}
 	
+	public String headerForFile() {
+		StringBuilder returnStringBuilder = new StringBuilder();
+		returnStringBuilder.append(this.name);
+		returnStringBuilder.append("_");
+		for (int i = 0; i < this.getNumberOfPylons(); i++) {
+			Pylon pylon = this.pylons.get(i+1);
+			if (pylon.getStores().size() > 0){
+				for (int j = 0; j < pylon.getStores().size(); j++) {
+					returnStringBuilder.append("Pylon");
+					returnStringBuilder.append(pylon.location);
+					returnStringBuilder.append("-");
+					returnStringBuilder.append(pylon.getStores().get(j).toString());
+					returnStringBuilder.append("_");
+				}
+			}
+		}
+		return returnStringBuilder.toString();
+	}
+	
 	public String toString() {
 		StringBuilder returnStringBuilder = new StringBuilder();
 		for (int i = 0; i < this.getNumberOfPylons(); i++) {
@@ -85,6 +108,38 @@ public class Aircraft {
 			}
 		}
 		return returnStringBuilder.toString();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public HashMap<Integer, Pylon> getPylons() {
+		return pylons;
+	}
+
+	public void setPylons(HashMap<Integer, Pylon> pylons) {
+		this.pylons = pylons;
+	}
+
+	public Set<String> getApprovedConfigs() {
+		return approvedConfigs;
+	}
+
+	public void setApprovedConfigs(Set<String> approvedConfigs) {
+		this.approvedConfigs = approvedConfigs;
+	}
+
+	public HashMap<String, Double> getCurrentParameters() {
+		return currentParameters;
+	}
+
+	public void setCurrentParameters(HashMap<String, Double> currentParameters) {
+		this.currentParameters = currentParameters;
 	}
 	
 }
