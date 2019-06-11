@@ -12,8 +12,6 @@ import utils.StdOut;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Path;
 
 public class ConfigurationManager {
 	
@@ -31,6 +29,8 @@ public class ConfigurationManager {
 	public HashMap<String, ArrayList<Integer>> aircraftConfigs = new HashMap<>();
 	// C3 (storesCodes) : storesCodes contains all of the allowed stores for the program and their details
 	public HashMap<Integer, String> storesCodes = new HashMap<>();
+	// C4 (aircraft) : aircraft instance managed centrally
+	public Aircraft aircraft;
 	
 	public ConfigurationManager() {}
 	

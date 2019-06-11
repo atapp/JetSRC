@@ -6,7 +6,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import configuration_manager.ConfigFileFormatException;
+import configuration_manager.ConfigurationManager;
 import stores.Store;
+import stores.StoreFactory;
+import utils.GenericSingletonFactory;
 
 public class Aircraft implements Serializable {
 	
@@ -16,11 +21,13 @@ public class Aircraft implements Serializable {
 	HashMap<Integer, Pylon> pylons = new HashMap<>();
 	Set<String> approvedConfigs = new HashSet<>();
 	HashMap<String, Double> currentParameters = new HashMap<>();
+	ConfigurationManager configurationManager;
 	
 	public Aircraft() {}
 	
 	// precondition - a config list with details of pylons and approved configurations
 	public void configure(String name, ArrayList<Integer> config) {
+		configurationManager = GenericSingletonFactory.getInstance(ConfigurationManager.class);
 		this.name = name;
 		int numberPylons = config.get(0);
 		// config file has number of pylons as first entry
@@ -30,20 +37,24 @@ public class Aircraft implements Serializable {
 		}
 		// the rest of config file details approved configurations
 		int count = 1;
-		Boolean pylonAdded = false;
+		Boolean pylonNumberAdded = false;
 		StringBuilder s = new StringBuilder();
 		for (int i = 1; i < config.size(); i++) {
 			if (config.get(i) == 99) { // signals move to next pylon
 				approvedConfigs.add(s.toString()); // add approved configs first
 				s.setLength(0); // clear string builder
-				pylonAdded = false;
+				pylonNumberAdded = false;
+				count++;
 			} else {
 				// build string
-				if (!pylonAdded) {
+				if (!pylonNumberAdded) {
 					s.append(String.valueOf(count));
-					pylonAdded = true;
-					count++;
+					pylonNumberAdded = true;
 				}
+				Pylon p = pylons.get(count);
+				String storeString = config.get(i)+ "|" + configurationManager.storesCodes.get(config.get(i));
+				p.approvedStores.put(config.get(i), storeString);
+				pylons.replace(count, p);
 				s.append(String.valueOf(config.get(i)));	
 			}
 		}
@@ -88,6 +99,24 @@ public class Aircraft implements Serializable {
 			}
 		}
 		return returnStringBuilder.toString();
+	}
+	
+	// add store to aircraft - adds a new store to the aircraft
+	// Precondition - C2 (aircraft) is initialized and setup, storeInput is a valid String array [pylonSelected, storeSelected].
+	// Postcondition : store is added to aircraft returns true
+	public boolean addStoreToAircraft(String[] storeInput) {
+		Store store;
+		Integer storeCode = Integer.valueOf(storeInput[1]);
+		String storeFromConfig = configurationManager.storesCodes.get(storeCode);
+		String[] storeFromConfigArray = storeFromConfig.split("\\|");
+		try {
+			store = StoreFactory.getStore(storeFromConfigArray[1], storeFromConfigArray[0], storeFromConfigArray[2]);
+		} catch (ConfigFileFormatException e) {
+			e.printStackTrace();
+			return false;
+		}
+		addStoreToPylon(Integer.valueOf(storeInput[0]), store);
+		return true;
 	}
 	
 	public String toString() {

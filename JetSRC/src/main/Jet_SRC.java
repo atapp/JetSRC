@@ -2,186 +2,26 @@
 
 package main;
 
-import aircrafts.Aircraft;
-import configuration_manager.ConfigFileFormatException;
-import configuration_manager.ConfigurationManager;
-import stores.Store;
-import stores.StoreFactory;
-import utils.GenericSingletonFactory;
-import utils.StdIn;
-import utils.StdOut;
-import utils.StringIsValidInt;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Jet_SRC {
-	
-	// CLASS INVARIANTS
-	// C1 (config) : An instance of ConfigurationManager
-	private static ConfigurationManager config = new ConfigurationManager();
-	// C2 (aircraft) : Aircraft instance
-	private static Aircraft aircraft;
+public class Jet_SRC extends Application {
 
 	public static void main(String[] args) {
-		// init program
-		config.setup();
-		
-		// check if multiple aircraft are available... 
-		String workingAircraftString; // name of aircraft
-		if (config.aircraftTypes.size() == 1) { // if not don't bother asking which one...
-			workingAircraftString = config.aircraftTypes.get(0);
-			printWelcomeMessage(workingAircraftString); // print welcome message with version
-			
-		} else { // multiple aircraft available so ask which one
-			printWelcomeMessage();
-			int userSelectedAircraft = askUserWhichAircraft();
-			workingAircraftString = config.aircraftTypes.get(userSelectedAircraft);
-		}
-		
-		if (config.getAllSavedAircraft().length > 0) {
-			StdOut.println("Would you like to open a saved aircraft? n/y");
-			String selectedString = StdIn.readLine();
-			if (selectedString.equalsIgnoreCase("y")) {
-				while(true) {
-					int count = 0;
-					for (String s: config.getAllSavedAircraft()) {
-						StdOut.println(count + ": " + s);
-						count ++;
-					}
-					try {
-						Integer selected = Integer.valueOf(StdIn.readLine());
-						String aircraftFileName = config.getAllSavedAircraft()[selected];
-						aircraft = config.retrieveSavedAircraft(aircraftFileName);
-						break;
-					} catch (Exception e) {
-						StdOut.println("Invalid selection");
-					}
-				}	
-				
-			} else {
-				// create aircraft with configuration selected
-				loadNewAircraft(workingAircraftString);
-				
-			}
-		} else {
-			// create aircraft with configuration selected
-			loadNewAircraft(workingAircraftString);
-			
-		}
-		
-		
-		// add stores (repeat till calculation)
-		boolean addingStores = true;
-		while(addingStores) {
-			String[] storeCode = askUserWhichStoreCode(); // returns [pylon,store]
-			boolean storeAdded = addStoreToAircraft(storeCode); // returns true if valid
-			boolean savedAircraft = config.saveAircraft(aircraft);
-			if (storeAdded) {
-				StdOut.println("Store added!");
-				StdOut.println(aircraft.toString());
-				StdOut.println("Aircraft saved is: " + savedAircraft);
-			} else {
-				StdOut.println("Problem adding store, try again.");
-			}	
-		}
-		
-		
+		// begin UI
+		launch(args);
 	}
-	
-	// METHODS
-	
-	// add store to aircraft - adds a new store to the aircraft
-	// Precondition - C2 (aircraft) is initialized and setup, storeInput is a valid String array [pylonSelected, storeSelected].
-	// Postcondition : store is added to aircraft returns true
-	private static boolean addStoreToAircraft(String[] storeInput) {
-		Store store;
-		Integer storeCode = Integer.valueOf(storeInput[1]);
-		String storeFromConfig = config.storesCodes.get(storeCode);
-		String[] storeFromConfigArray = storeFromConfig.split("\\|");
-		try {
-			store = StoreFactory.getStore(storeFromConfigArray[1], storeFromConfigArray[0], storeFromConfigArray[2]);
-		} catch (ConfigFileFormatException e) {
-			e.printStackTrace();
-			return false;
-		}
-		aircraft.addStoreToPylon(Integer.valueOf(storeInput[0]), store);
-		return true;
-	}
-	
-	// askUserWhichStoreCode - gets the users requested store code from those available.
-	// Precondition : C1 (config) is initialized and setup, C2 (aircraft) is initialized and setup
-	// Postcondition : int is returned indicating the selected store type 
-	private static String[] askUserWhichStoreCode() {
-		String pylonSelected; // part of return value
-		String storeSelected; // part of return value
-		int numberOfPylons = aircraft.getNumberOfPylons();
-		while(true) {
-			StdOut.println("Choose a pylon to configure (1 - " + numberOfPylons + ") or type EXIT");
-			pylonSelected = StdIn.readLine();
-			if (pylonSelected.equals("EXIT")) {
-				StdOut.println("Bye!");
-				System.exit(0);
-			} else if 
-				(StringIsValidInt.isValid(pylonSelected) && // check for valid input
-				(Integer.valueOf(pylonSelected) <=  numberOfPylons)) // check not out of range
-			{
-				int[] availableStores = aircraft.getStoresForPylon(pylonSelected);
-				for (int i : availableStores) {
-					StdOut.println(i + ": "+ config.storesCodes.get(i).split("\\|")[0]);
-				}
-				break;
-			} else {
-				StdOut.println("You selected an invalid number"); // invalid input
-			}
-			
-		} // store list displayed - now get valid store input
-		while(true) {
-			storeSelected = StdIn.readLine();
-			if 
-				(StringIsValidInt.isValid(storeSelected) && // check for valid input
-				(Integer.valueOf(storeSelected) <=  config.storesCodes.size())) // check not out of range
-			{
-				break; // valid
-			} else {
-				StdOut.println("You selected an invalid number - try again"); // invalid input
-			}
-		}
-		String[] returnStrings = {pylonSelected,storeSelected};
-		return returnStrings;
-	}
-	
-	// askUserWhichAircraft - gets the users requested aircraft.
-	// Precondition : C1 (config) is initialized and setup
-	// Postcondition : int is returned indicating the selected aircraft type 
-	private static int askUserWhichAircraft() {
-		StdOut.println("Pick an aircraft by typing associated number:");
-		for (int i = 1; i < config.aircraftTypes.size(); i++) { // precondition
-			StdOut.println(i + ": " + config.aircraftTypes.get(i));
-		}
-		int userAnswerInt = StdIn.readInt();
-		return userAnswerInt; // postcondition
-	}
-	
-	// Welcome message helper
-	private static void printWelcomeMessage() {
-		StdOut.print(
-				"#################################################\n\nWelcome to JetSRC\n");
-	}
-	
-	// Welcome message helper (overloaded) if one aircraft
-	private static void printWelcomeMessage(String aircraft) {
-		StdOut.print(
-				"#################################################\n\nWelcome to JetSRC (" + aircraft +")\n");
-	}
-	
-	// load new aircraft
-	private static void loadNewAircraft(String wString) {
-		// create aircraft with configuration selected
-				aircraft = GenericSingletonFactory.getInstance(Aircraft.class);
-				aircraft.configure(
-						wString,
-						// corresponding config file 
-						config.aircraftConfigs.get(wString)
-						);
-				
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		Parent child = FXMLLoader.load(getClass().getResource("../gui/view/start.fxml"));
+		Scene scene = new Scene(child, 900, 600);
+        stage.setScene(scene);
+        stage.setTitle("JetSRC");
+        stage.show();	
 	}
 
 }

@@ -2,6 +2,7 @@ package aircrafts;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import stores.Store;
 
@@ -11,6 +12,8 @@ public class Pylon implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	public int location; // location on aircraft
+	public HashMap<Integer, String> approvedStores = new HashMap<>();
+	//public ArrayList<Store> approvedStoresStores = new ArrayList<>();
 	private ArrayList<Store> stores = new ArrayList<>(); // stores on pylon
 	private int capacity; // pylon capacity
 	
@@ -53,4 +56,5 @@ public class Pylon implements Serializable{
 	public void setStores(ArrayList<Store> stores) {
 		this.stores = stores;
 	}
+	
 }

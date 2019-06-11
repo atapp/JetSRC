@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: ffffff;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.Controller">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <HBox alignment="CENTER_LEFT" spacing="4.0" style="-fx-background-color: ffffff;">
+         <children>
+            <ImageView fitHeight="36.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="./gui/resources/LOGO1.jpg" />
+               </image>
+            </ImageView>
+            <Region style="-fx-background-color: ffffff;" HBox.hgrow="ALWAYS" />
+            <Label text="Saved Configs:" />
+            <ComboBox fx:id="savedConfigs" onAction="#loadConfig" prefWidth="150.0" />
+            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#saveConfig" text="Save Config" />
+         </children>
+         <VBox.margin>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox>
+         <children>
+            <Region HBox.hgrow="ALWAYS" />
+          <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="450.0" prefWidth="900.0" style="-fx-background-color: ffffff;">
+               <children>
+                  <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView pickOnBounds="true" preserveRatio="true" StackPane.alignment="TOP_CENTER">
+                           <image>
+                              <Image url="./gui/resources/f-18.jpg" />
+                           </image>
+                           <StackPane.margin>
+                              <Insets left="50.0" right="50.0" />
+                           </StackPane.margin>
+                        </ImageView>
+                        <AnchorPane fx:id="stationsPane" StackPane.alignment="TOP_CENTER">
+                           <children>
+                              <Label fx:id="descriptionLabel" layoutX="406.0" layoutY="17.0">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox fx:id="stn9" layoutX="14.0" layoutY="139.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn8" layoutX="114.0" layoutY="166.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn7" layoutX="218.0" layoutY="166.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn6" layoutX="309.0" layoutY="200.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn4" layoutX="493.0" layoutY="200.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn3" layoutX="580.0" layoutY="166.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn2" layoutX="686.0" layoutY="166.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn1" layoutX="786.0" layoutY="139.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <ComboBox fx:id="stn5" layoutX="400.0" layoutY="230.0" onAction="#pylonChanged" prefWidth="100.0" />
+                              <Label fx:id="labelStn9" layoutX="47.0" layoutY="180.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn8" layoutX="144.0" layoutY="205.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn7" layoutX="251.0" layoutY="205.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn6" layoutX="342.0" layoutY="244.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn5" layoutX="433.0" layoutY="267.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn4" layoutX="526.0" layoutY="244.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn3" layoutX="613.0" layoutY="205.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn2" layoutX="719.0" layoutY="205.0" onMouseClicked="#removeStore" text="Empty" />
+                              <Label fx:id="labelStn1" layoutX="819.0" layoutY="180.0" onMouseClicked="#removeStore" text="Empty" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </StackPane>
+               </children>
+          </AnchorPane>
+            <Region HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="2.0">
+         <children>
+            <TextArea fx:id="displayArea" HBox.hgrow="ALWAYS" />
+            <TableView>
+              <columns>
+                <TableColumn prefWidth="75.0" text="WPN" />
+                <TableColumn prefWidth="75.0" text="CAR" />
+                  <TableColumn prefWidth="75.0" text="REL" />
+                  <TableColumn prefWidth="75.0" text="JET" />
+                  <TableColumn prefWidth="75.0" text="SEP" />
+              </columns>
+            </TableView>
+         </children>
+         <padding>
+            <Insets left="2.0" right="2.0" />
+         </padding>
+      </HBox>
+  </children>
+</VBox>
