@@ -120,16 +120,12 @@ public class Controller implements Initializable {
 	// METHODS
 	// Action event for when pylon item selected	
 	public void pylonChanged(ActionEvent event) {
+		// event get source type safe due to specific action on ComboBox
+		@SuppressWarnings("unchecked")
 		ComboBox<String> box = (ComboBox<String>)event.getSource();
-		//StdOut.println(box.getId() + box.getValue());
-		String[] storeArrayStrings = new String[1];
-		String boxId = box.getId().substring(3);
-		storeArrayStrings[0] = boxId;
-		String[] storeInput = box.getValue().split("\\|");
-		String[] storeInputComplete = Stream.of(storeArrayStrings, storeInput)
-				.flatMap(Stream::of)
-                .toArray(String[]::new);
-		boolean added = dataGuiModel.config.aircraft.addStoreToAircraft(storeInputComplete);
+		String boxId = box.getId();
+		String storeInput = box.getValue();
+		boolean added = dataGuiModel.addStoreToPylon(boxId,storeInput);
 		if (added) {
 			displayArea.setText(dataGuiModel.config.aircraft.toString());
 		} else {
