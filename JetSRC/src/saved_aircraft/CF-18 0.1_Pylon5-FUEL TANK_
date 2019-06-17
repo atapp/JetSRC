@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_211" class="java.beans.XMLDecoder">
+ <object class="aircrafts.Aircraft" id="Aircraft0">
+  <void property="approvedConfigs">
+   <void method="add">
+    <string>112</string>
+   </void>
+   <void method="add">
+    <string>46</string>
+   </void>
+   <void method="add">
+    <string>534567</string>
+   </void>
+   <void method="add">
+    <string>712</string>
+   </void>
+   <void method="add">
+    <string>64567</string>
+   </void>
+   <void method="add">
+    <string>813</string>
+   </void>
+   <void method="add">
+    <string>935</string>
+   </void>
+   <void method="add">
+    <string>334567</string>
+   </void>
+   <void method="add">
+    <string>24567</string>
+   </void>
+  </void>
+  <void property="name">
+   <string>CF-18 0.1</string>
+  </void>
+  <void property="pylons">
+   <void method="put">
+    <int>1</int>
+    <object class="aircrafts.Pylon" id="Pylon0">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon0"/>
+       <int>1</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>2</int>
+    <object class="aircrafts.Pylon" id="Pylon1">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon1"/>
+       <int>2</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>3</int>
+    <object class="aircrafts.Pylon" id="Pylon2">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon2"/>
+       <int>3</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>4</int>
+    <object class="aircrafts.Pylon" id="Pylon3">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon3"/>
+       <int>4</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>5</int>
+    <object class="aircrafts.Pylon" id="Pylon4">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon4"/>
+       <int>5</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+     <void property="stores">
+      <void method="add">
+       <object class="stores.OtherStore">
+        <void property="carriageLimit">
+         <double>1.6</double>
+        </void>
+        <void property="name">
+         <string>FUEL TANK</string>
+        </void>
+       </object>
+      </void>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>6</int>
+    <object class="aircrafts.Pylon" id="Pylon5">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon5"/>
+       <int>6</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>7</int>
+    <object class="aircrafts.Pylon" id="Pylon6">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon6"/>
+       <int>7</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>8</int>
+    <object class="aircrafts.Pylon" id="Pylon7">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon7"/>
+       <int>8</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+   <void method="put">
+    <int>9</int>
+    <object class="aircrafts.Pylon" id="Pylon8">
+     <void class="aircrafts.Pylon" method="getField">
+      <string>location</string>
+      <void method="set">
+       <object idref="Pylon8"/>
+       <int>9</int>
+      </void>
+     </void>
+     <void property="capacity">
+      <int>1</int>
+     </void>
+    </object>
+   </void>
+  </void>
+ </object>
+<void class="aircrafts.Pylon" id="Field0" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap0" method="get">
+  <object idref="Pylon7"/>
+  <void method="put">
+   <int>3</int>
+   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap0"/>
+<void class="aircrafts.Pylon" id="Field1" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap1" method="get">
+  <object idref="Pylon3"/>
+  <void method="put">
+   <int>6</int>
+   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap1"/>
+<void class="aircrafts.Pylon" id="Field2" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap2" method="get">
+  <object idref="Pylon0"/>
+  <void method="put">
+   <int>2</int>
+   <string>2|ACMI POD|other|1.8,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap2"/>
+<void class="aircrafts.Pylon" id="Field3" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap3" method="get">
+  <object idref="Pylon5"/>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+  </void>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap3"/>
+<void class="aircrafts.Pylon" id="Field4" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap4" method="get">
+  <object idref="Pylon6"/>
+  <void method="put">
+   <int>2</int>
+   <string>2|ACMI POD|other|1.8,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap4"/>
+<void class="aircrafts.Pylon" id="Field5" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap5" method="get">
+  <object idref="Pylon2"/>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+  </void>
+  <void method="put">
+   <int>3</int>
+   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap5"/>
+<void class="aircrafts.Pylon" id="Field6" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap6" method="get">
+  <object idref="Pylon1"/>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+  </void>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap6"/>
+<void class="aircrafts.Pylon" id="Field7" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap7" method="get">
+  <object idref="Pylon4"/>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+  </void>
+  <void method="put">
+   <int>3</int>
+   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap7"/>
+<void class="aircrafts.Pylon" id="Field8" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap8" method="get">
+  <object idref="Pylon8"/>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>3</int>
+   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+ </void>
+</void>
+<void idref="HashMap8"/>
+</java>

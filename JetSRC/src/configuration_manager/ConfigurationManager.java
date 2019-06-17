@@ -7,10 +7,14 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import aircrafts.Aircraft;
+import utils.ApprovedConfigurationsConnection;
+import utils.GenericSingletonFactory;
 import utils.StdOut;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class ConfigurationManager {
@@ -20,6 +24,7 @@ public class ConfigurationManager {
 	final static String STORES_CODES_FILE = "src/configuration_files/store_codes.txt";
 	final static String AIRCRAFT_CONFIGURATIONS_FILE = "src/configuration_files/aircraft_configurations.txt";
 	final static String AIRCRAFT_SAVE_PATH = "src/saved_aircraft/";
+	final static String APPROVED_CONFIGS_PATH = "src/configuration_files/weapon_table_unclassified.csv";
 	
 	// CLASS INVARIANTS
 	
@@ -56,6 +61,11 @@ public class ConfigurationManager {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (ConfigFileFormatException e) {
+			e.printStackTrace();
+		}
+		try {
+			this.importApprovedConfigs();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -164,6 +174,41 @@ public class ConfigurationManager {
 
 	       infile.close();
 		
+	}
+	
+	// importApprovedConfigs - retrieves the aircraft approved configurations and place in database
+	// Precondition : a correctly formatted file is saved at APPROVED_CONFIGS
+	// Postcondition : database of approved configs is filled
+	private void importApprovedConfigs() throws FileNotFoundException, ConfigFileFormatException{
+		ApprovedConfigurationsConnection conn = GenericSingletonFactory.getInstance(ApprovedConfigurationsConnection.class);
+		BufferedReader bReader = new BufferedReader(new FileReader(APPROVED_CONFIGS_PATH));
+        String line = "";
+        int lineNumber = 1;
+        conn.addPreparedStatements();
+        try {
+        	while ((line = bReader.readLine()) != null) {
+	            try {
+	                String[] array = line.split(",+");
+	                if (lineNumber != 1) conn.insert(array);
+	            } catch (Exception e) {
+	            	throw new ConfigFileFormatException(APPROVED_CONFIGS_PATH, "Not able to read csv lines");
+	            }
+	            lineNumber++;
+	        }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            try {
+				bReader.close();
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
 	}
 	
 	// saveAircraft - saves the aircraft for later retreval

@@ -82,6 +82,11 @@ public class Aircraft implements Serializable {
 		pylons.replace(pylon, p);
 	}
 	
+	public void removeStoresFromPylon(Integer pylon) {
+		Pylon p = pylons.get(pylon);
+		p.removeStores();
+	}
+	
 	public String headerForFile() {
 		StringBuilder returnStringBuilder = new StringBuilder();
 		returnStringBuilder.append(this.name);

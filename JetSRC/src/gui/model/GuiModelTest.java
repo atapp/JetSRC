@@ -10,15 +10,17 @@ import org.junit.jupiter.api.Test;
 import aircrafts.Aircraft;
 import aircrafts.Pylon;
 import configuration_manager.ConfigurationManager;
+import sun.print.PSPrinterJob.PluginPrinter;
 import utils.GenericSingletonFactory;
+import utils.StdOut;
 
 class GuiModelTest {
 	
-	private ConfigurationManager config;
+	static private ConfigurationManager config;
 	private HashMap<Integer, HashMap<Integer,String>> pylonsHashMap = new HashMap<>();
 	
 	@BeforeAll
-	void setup() {
+	static void setup() {
 		config = new ConfigurationManager();
 		config.setup();
 	}
@@ -39,7 +41,8 @@ class GuiModelTest {
 	void testBuildPylonMap() {
 		loadNewAircraft("CF-18 0.1");
 		buildPylonMap();
-		assertTrue(pylonsHashMap.get(1).get(1) == "1|AIM-9M|A-A|1.8,0,0,0");
+		System.out.println(pylonsHashMap.get(1).get(1));
+		assertTrue(pylonsHashMap.get(1).get(1).equalsIgnoreCase("1|null"));
 	}
 	
 	private void loadNewAircraft(String wString) {

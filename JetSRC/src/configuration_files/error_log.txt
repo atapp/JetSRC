@@ -1,1 +1,1 @@
-Config File Error at 2019-06-10:21-55-32 at file src/configuration_files/aircraft_configurations.txt with error Could not find corresponding aircraft in AIRCRAFT_CONFIGURATION_FILE.
+Config File Error at 2019-06-15:14-32-47 at file src/configuration_files/weapon_table_unclassified.csv with error Not able to read csv lines
