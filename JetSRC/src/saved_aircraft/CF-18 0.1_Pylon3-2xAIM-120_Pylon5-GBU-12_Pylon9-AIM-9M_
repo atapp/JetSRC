@@ -3,31 +3,31 @@
  <object class="aircrafts.Aircraft" id="Aircraft0">
   <void property="approvedConfigs">
    <void method="add">
-    <string>112</string>
+    <string>9111</string>
    </void>
    <void method="add">
-    <string>46</string>
+    <string>212345678910</string>
    </void>
    <void method="add">
-    <string>534567</string>
+    <string>545613</string>
    </void>
    <void method="add">
-    <string>712</string>
+    <string>1111</string>
    </void>
    <void method="add">
-    <string>64567</string>
+    <string>4212</string>
    </void>
    <void method="add">
-    <string>813</string>
+    <string>812345678910</string>
    </void>
    <void method="add">
-    <string>935</string>
+    <string>31234567891013</string>
    </void>
    <void method="add">
-    <string>334567</string>
+    <string>62</string>
    </void>
    <void method="add">
-    <string>24567</string>
+    <string>71234567891013</string>
    </void>
   </void>
   <void property="name">
@@ -77,6 +77,21 @@
      <void property="capacity">
       <int>1</int>
      </void>
+     <void property="stores">
+      <void method="add">
+       <object class="stores.AAStore">
+        <void property="carriageLimit">
+         <double>1.6</double>
+        </void>
+        <void property="jettisonLimitDouble">
+         <double>0.0</double>
+        </void>
+        <void property="name">
+         <string>2xAIM-120</string>
+        </void>
+       </object>
+      </void>
+     </void>
     </object>
    </void>
    <void method="put">
@@ -109,12 +124,21 @@
      </void>
      <void property="stores">
       <void method="add">
-       <object class="stores.OtherStore">
+       <object class="stores.AGStore">
         <void property="carriageLimit">
-         <double>1.6</double>
+         <double>1.1</double>
+        </void>
+        <void property="jettisonLimitDouble">
+         <double>0.9</double>
         </void>
         <void property="name">
-         <string>FUEL TANK</string>
+         <string>GBU-12</string>
+        </void>
+        <void property="releaseLimitDouble">
+         <double>0.9</double>
+        </void>
+        <void property="seperationString">
+         <string>2G-90</string>
         </void>
        </object>
       </void>
@@ -179,6 +203,21 @@
      <void property="capacity">
       <int>1</int>
      </void>
+     <void property="stores">
+      <void method="add">
+       <object class="stores.AAStore">
+        <void property="carriageLimit">
+         <double>1.8</double>
+        </void>
+        <void property="jettisonLimitDouble">
+         <double>0.0</double>
+        </void>
+        <void property="name">
+         <string>AIM-9M</string>
+        </void>
+       </object>
+      </void>
+     </void>
     </object>
    </void>
   </void>
@@ -186,10 +225,10 @@
 <void class="aircrafts.Pylon" id="Field0" method="getField">
  <string>approvedStores</string>
  <void id="HashMap0" method="get">
-  <object idref="Pylon7"/>
+  <object idref="Pylon0"/>
   <void method="put">
-   <int>3</int>
-   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+   <int>11</int>
+   <string>11|ACMI POD|other|1.8,0,0,0</string>
   </void>
   <void method="put">
    <int>1</int>
@@ -201,10 +240,10 @@
 <void class="aircrafts.Pylon" id="Field1" method="getField">
  <string>approvedStores</string>
  <void id="HashMap1" method="get">
-  <object idref="Pylon3"/>
+  <object idref="Pylon5"/>
   <void method="put">
-   <int>6</int>
-   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
   </void>
  </void>
 </void>
@@ -212,10 +251,10 @@
 <void class="aircrafts.Pylon" id="Field2" method="getField">
  <string>approvedStores</string>
  <void id="HashMap2" method="get">
-  <object idref="Pylon0"/>
+  <object idref="Pylon8"/>
   <void method="put">
-   <int>2</int>
-   <string>2|ACMI POD|other|1.8,0,0,0</string>
+   <int>11</int>
+   <string>11|ACMI POD|other|1.8,0,0,0</string>
   </void>
   <void method="put">
    <int>1</int>
@@ -227,33 +266,46 @@
 <void class="aircrafts.Pylon" id="Field3" method="getField">
  <string>approvedStores</string>
  <void id="HashMap3" method="get">
-  <object idref="Pylon5"/>
+  <object idref="Pylon2"/>
   <void method="put">
-   <int>5</int>
-   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
   </void>
   <void method="put">
-   <int>6</int>
-   <string>6|AIM-120|A-A|1.6,0,0,0</string>
-  </void>
-  <void method="put">
-   <int>7</int>
-   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+   <int>3</int>
+   <string>3|2xAIM-120|A-A|1.6,0,0,0</string>
   </void>
   <void method="put">
    <int>4</int>
    <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
   </void>
- </void>
-</void>
-<void idref="HashMap3"/>
-<void class="aircrafts.Pylon" id="Field4" method="getField">
- <string>approvedStores</string>
- <void id="HashMap4" method="get">
-  <object idref="Pylon6"/>
   <void method="put">
-   <int>2</int>
-   <string>2|ACMI POD|other|1.8,0,0,0</string>
+   <int>5</int>
+   <string>5|GBU-10|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|GBU-24|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>8</int>
+   <string>8|GBU-38|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>9</int>
+   <string>9|GBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>10</int>
+   <string>10|2xGBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>13</int>
+   <string>13|FUEL TANK|other|1.6,0,0,0</string>
   </void>
   <void method="put">
    <int>1</int>
@@ -261,30 +313,77 @@
   </void>
  </void>
 </void>
+<void idref="HashMap3"/>
+<void class="aircrafts.Pylon" id="Field4" method="getField">
+ <string>approvedStores</string>
+ <void id="HashMap4" method="get">
+  <object idref="Pylon4"/>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-10|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|GBU-24|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>13</int>
+   <string>13|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+ </void>
+</void>
 <void idref="HashMap4"/>
 <void class="aircrafts.Pylon" id="Field5" method="getField">
  <string>approvedStores</string>
  <void id="HashMap5" method="get">
-  <object idref="Pylon2"/>
+  <object idref="Pylon6"/>
+  <void method="put">
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>3</int>
+   <string>3|2xAIM-120|A-A|1.6,0,0,0</string>
+  </void>
   <void method="put">
    <int>4</int>
    <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
   </void>
   <void method="put">
    <int>5</int>
-   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+   <string>5|GBU-10|A-G|1.1,0.9,0.9,2G-90</string>
   </void>
   <void method="put">
    <int>6</int>
-   <string>6|AIM-120|A-A|1.6,0,0,0</string>
+   <string>6|GBU-24|A-G|1.1,0.9,0.9,2G-90</string>
   </void>
   <void method="put">
    <int>7</int>
-   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+   <string>7|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
   </void>
   <void method="put">
-   <int>3</int>
-   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+   <int>8</int>
+   <string>8|GBU-38|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>9</int>
+   <string>9|GBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>10</int>
+   <string>10|2xGBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>13</int>
+   <string>13|FUEL TANK|other|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
   </void>
  </void>
 </void>
@@ -294,20 +393,44 @@
  <void id="HashMap6" method="get">
   <object idref="Pylon1"/>
   <void method="put">
-   <int>5</int>
-   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
   </void>
   <void method="put">
-   <int>6</int>
-   <string>6|AIM-120|A-A|1.6,0,0,0</string>
-  </void>
-  <void method="put">
-   <int>7</int>
-   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
+   <int>3</int>
+   <string>3|2xAIM-120|A-A|1.6,0,0,0</string>
   </void>
   <void method="put">
    <int>4</int>
    <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-10|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|GBU-24|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>8</int>
+   <string>8|GBU-38|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>9</int>
+   <string>9|GBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>10</int>
+   <string>10|2xGBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
   </void>
  </void>
 </void>
@@ -315,26 +438,14 @@
 <void class="aircrafts.Pylon" id="Field7" method="getField">
  <string>approvedStores</string>
  <void id="HashMap7" method="get">
-  <object idref="Pylon4"/>
+  <object idref="Pylon3"/>
   <void method="put">
-   <int>4</int>
-   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+   <int>12</int>
+   <string>12|SNIPER|other|1.1,0,0,0</string>
   </void>
   <void method="put">
-   <int>5</int>
-   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
-  </void>
-  <void method="put">
-   <int>6</int>
-   <string>6|AIM-120|A-A|1.6,0,0,0</string>
-  </void>
-  <void method="put">
-   <int>7</int>
-   <string>7|2 x AIM-120|A-A|1.6,0,0.9,0</string>
-  </void>
-  <void method="put">
-   <int>3</int>
-   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
   </void>
  </void>
 </void>
@@ -342,14 +453,46 @@
 <void class="aircrafts.Pylon" id="Field8" method="getField">
  <string>approvedStores</string>
  <void id="HashMap8" method="get">
-  <object idref="Pylon8"/>
+  <object idref="Pylon7"/>
   <void method="put">
-   <int>5</int>
-   <string>5|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+   <int>2</int>
+   <string>2|AIM-120|A-A|1.6,0,0,0</string>
   </void>
   <void method="put">
    <int>3</int>
-   <string>3|FUEL TANK|other|1.6,0,0,0</string>
+   <string>3|2xAIM-120|A-A|1.6,0,0,0</string>
+  </void>
+  <void method="put">
+   <int>4</int>
+   <string>4|GBU-12|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>5</int>
+   <string>5|GBU-10|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>6</int>
+   <string>6|GBU-24|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>7</int>
+   <string>7|GBU-32|A-G|1.2,1.1,1.1,3G-90</string>
+  </void>
+  <void method="put">
+   <int>8</int>
+   <string>8|GBU-38|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>9</int>
+   <string>9|GBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>10</int>
+   <string>10|2xGBU-49|A-G|1.1,0.9,0.9,2G-90</string>
+  </void>
+  <void method="put">
+   <int>1</int>
+   <string>1|AIM-9M|A-A|1.8,0,0,0</string>
   </void>
  </void>
 </void>
