@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Jun 16 20:20:46 EDT 2019:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-016b-62ce-c670-00000709e580 
+Tue Jun 18 21:24:06 EDT 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.13.1.1 - (1765088): instance a816c00e-016b-6d55-7740-000007090f38 
 on database directory /Users/simonhogg/git/JetSRC/JetSRC/approvedConfigurations with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/Users/simonhogg/Downloads/db-derby-10.13.1.1-bin/lib/derby.jar
 java.vendor=Oracle Corporation

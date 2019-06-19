@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import gui.model.GuiModel;
 import gui.model.TableDataModel;
 import gui.model.TableDataModel.TableData;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -122,30 +123,7 @@ public class Controller implements Initializable {
 			.forEach(entry -> labelHashMap.put(Integer.valueOf(entry.getId().substring(8, 9)), entry));
 		
 		// Iterate over combo box to add approved configs
-		for (Map.Entry<Integer, ComboBox<String>> value : comboBoxes.entrySet()) {
-			HashMap<Integer, String> map = dataGuiModel.pylonsHashMap.get(value.getKey());
-			
-			// Create observable list of items for each station
-			ObservableList<String> list = FXCollections.observableArrayList();
-			list.addAll(map.values());
-			value.getValue().getItems().addAll(list);
-			value.getValue().setConverter(new StringConverter<String>() {
-
-				@Override
-				public String toString(String object) {
-					if (object != null)
-						object = object.split(storeInputRegexString)[1];
-					return object;
-				}
-
-				@Override
-				public String fromString(String string) {
-					// TODO Auto-generated method stub
-					return string;
-				}
-				
-			});
-		}
+		updateAircraftDropDowns();
 	}
 	
 	// METHODS
@@ -174,6 +152,7 @@ public class Controller implements Initializable {
 				updateTextArea(displayAreaErrorString);
 			}
 		}
+		filterAircraftPylons();
 		
 	}
 	// Action event for when selection made in saved configurations drop down.
@@ -267,6 +246,26 @@ public class Controller implements Initializable {
         tableStage.show();
 	}
 	
+	// DATABASE INTERACTIONS
+	// get filtered drop downs
+	
+	private void filterAircraftPylons() {
+		// We need a HashMap containing just the changed pylons and their values
+		HashMap<String, String> changedPylons = new HashMap<String, String>();
+		
+		comboBoxes
+			.entrySet()
+			.stream()
+			.filter(e -> e.getValue().getValue() != null)
+			.filter(e -> StringIsValidInt.isValid(e.getValue().getValue().substring(0,1)))
+			.forEach(e -> changedPylons.put(String.valueOf(e.getKey()), e.getValue().getValue().substring(0,1)));
+		
+		// We send this to the datamodel to filter the database
+		dataGuiModel.filterAircraftDropDowns(changedPylons);
+		
+		updateAircraftDropDowns();
+	}
+	
 	// HELPER METHODS
 	// Get pane nodes
 	public static <T extends Pane> List<Node> paneNodes(T parent) {
@@ -309,4 +308,40 @@ public class Controller implements Initializable {
     		
     	});
     };
+    
+    private void updateAircraftDropDowns() {
+    	Platform.runLater(() -> {
+            try {
+            	for (Map.Entry<Integer, ComboBox<String>> value : comboBoxes.entrySet()) {
+    				HashMap<Integer, String> map = dataGuiModel.pylonsHashMap.get(value.getKey());
+    				
+    				// Create observable list of items for each station
+    				ObservableList<String> list = FXCollections.observableArrayList();
+    				list.addAll(map.values());
+    				value.getValue().setOnAction(null);
+    				value.getValue().getItems().clear();
+    				value.getValue().getItems().addAll(list);
+    				value.getValue().setConverter(new StringConverter<String>() {
+
+    					@Override
+    					public String toString(String object) {
+    						if (object != null)
+    							object = object.split(storeInputRegexString)[1];
+    						return object;
+    					}
+
+    					@Override
+    					public String fromString(String string) {
+    						// TODO Auto-generated method stub
+    						return string;
+    					}
+    					
+    				});
+    				value.getValue().setOnAction((event) -> pylonChanged(event));
+    			}
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
 }

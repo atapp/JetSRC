@@ -51,9 +51,7 @@ abstract class DatabaseConnection {
 			// TODO Auto-generated catch block
 			StdOut.println("createPreparedStatement "+ e.getMessage());
 			e.printStackTrace();
-		} finally {
-			//try { pStatement.close(); } catch (Exception e) { /* ignored */ }
-		}
+		} 
 	}
 	
 	void createTableIfNoneExists(String table, String sqlString) {
@@ -61,12 +59,9 @@ abstract class DatabaseConnection {
 		try {
 			DatabaseMetaData dbmd = connection.getMetaData();
 	        ResultSet rs = dbmd.getTables(null, null, table.toUpperCase(),null);
-	        if(!rs.next())
-	        {
+	        if(!rs.next()){
 	        	connection.createStatement().execute(sql);
-	        }
-	        else
-	        {
+	        } else {
 	            System.out.println("Table already exists");
 	        }
 		} catch (Exception e) {

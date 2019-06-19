@@ -76,11 +76,12 @@ public class ApprovedConfigurationsConnection extends DatabaseConnection{
 			if (pylons.length == stores.length) {
 				filterString.append("SELECT * FROM "+TABLE_NAME+" WHERE ");
 				for (int i = 0; i < pylons.length; i++) {
-					filterString.append("pylon");
+					filterString.append("PYLON");
 					filterString.append(pylons[i]);
-					filterString.append(" = ");
+					filterString.append(" = '");
 					filterString.append(stores[i]);
-					if (pylons.length > 1) {
+					filterString.append("'");
+					if (pylons.length > 1 && i < (pylons.length - 1)) {
 						filterString.append(" AND ");
 					}
 				}
@@ -92,11 +93,9 @@ public class ApprovedConfigurationsConnection extends DatabaseConnection{
 				return null;
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
-		} finally {
-			try { filterStatement.close(); } catch (Exception e) { /* ignored */ }
-			try { connection.close(); } catch (Exception e) {}
-		}
+			StdOut.println("Exception in ApprovedConfigurationsConnection.filter()");
+			e.printStackTrace();
+		} 
 		// shouldnt reach here
 		return null;
 	}
