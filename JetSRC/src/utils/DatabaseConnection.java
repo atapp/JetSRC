@@ -73,7 +73,20 @@ abstract class DatabaseConnection {
 	}
 	
 	public void closeAllConnections() {
-		//connection.
+		statements.forEach((k,v) -> {
+			try {
+				v.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
