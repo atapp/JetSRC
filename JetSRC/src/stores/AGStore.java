@@ -11,8 +11,8 @@ public class AGStore extends Store implements Jettisonable, Releasable {
 	private Double releaseLimitDouble;
 	private String seperationString;
 	
-	public AGStore(String name, Double carriageLimit, Double releaseLimit, Double jettisonLimit, String seperation) {
-		super(name, carriageLimit);
+	public AGStore(Integer storeCode,String code, String name, Double carriageLimit, Double releaseLimit, Double jettisonLimit, String seperation) {
+		super(storeCode, code, name, carriageLimit);
 		this.jettisonLimitDouble = jettisonLimit;
 		this.releaseLimitDouble = releaseLimit;
 		this.seperationString = seperation;

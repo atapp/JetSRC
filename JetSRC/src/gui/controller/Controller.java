@@ -251,17 +251,10 @@ public class Controller implements Initializable {
 	
 	private void filterAircraftPylons() {
 		// We need a HashMap containing just the changed pylons and their values
-		HashMap<String, String> changedPylons = new HashMap<String, String>();
-		
-		comboBoxes
-			.entrySet()
-			.stream()
-			.filter(e -> e.getValue().getValue() != null)
-			.filter(e -> StringIsValidInt.isValid(e.getValue().getValue().substring(0,1)))
-			.forEach(e -> changedPylons.put(String.valueOf(e.getKey()), e.getValue().getValue().substring(0,1)));
+		HashMap<String, String> currentStores = dataGuiModel.config.aircraft.getStoresHashMap();
 		
 		// We send this to the datamodel to filter the database
-		dataGuiModel.filterAircraftDropDowns(changedPylons);
+		dataGuiModel.filterAircraftDropDowns(currentStores);
 		
 		updateAircraftDropDowns();
 	}

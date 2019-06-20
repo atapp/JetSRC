@@ -29,6 +29,8 @@ public class GuiModel {
 	// CONSTANTS
 	String defaultAircraftString = "CF-18 0.1";
 	String storeInputRegexString = "\\|";
+	String csvIdColumnName = "UID";
+	String csdDetailsColumnName = "DETAILS";
 	
 	// CLASS INVARIANTS
 	
@@ -145,7 +147,7 @@ public class GuiModel {
 		int counter = 0; // use a counter with the entrySet
 		for (Entry<String, String> mapEntry : selectedStores.entrySet()) {
 		    pylons[counter] = mapEntry.getKey();
-		    stores[counter] = mapEntry.getValue();
+		    stores[counter] = mapEntry.getValue().split(storeInputRegexString)[0];
 		    counter++;
 		}
 		
@@ -165,11 +167,14 @@ public class GuiModel {
 			ResultSetMetaData rsmd = results.getMetaData(); 
 			int colCount = rsmd.getColumnCount();
 			for (int i = 1; i <= colCount; i++) {
-		        String colName = rsmd.getColumnName(i);
-		        colNames.add(colName);
-	
-		        //Load the Map initially with keys(columnnames) and empty set
-		        pylonValuesMap.put(colName, new LinkedHashSet<String>());
+				String colName = rsmd.getColumnName(i);
+				if (colName.equalsIgnoreCase(csvIdColumnName)|| colName.equalsIgnoreCase(csdDetailsColumnName)) {
+			        // ignore
+				} else {
+					colNames.add(colName);
+			        //Load the Map initially with keys(columnnames) and empty set
+			        pylonValuesMap.put(colName, new LinkedHashSet<String>());
+				}  
 			}
 
 	    
@@ -200,7 +205,7 @@ public class GuiModel {
 		// Refresh the pylon map to feed the UI
 		pylonsHashMap.clear();
 		pylonValuesMap.forEach((k,v) -> {
-			if (k.length() > 4 && StringIsValidInt.isValid(k.substring(5,6))) { // make sure the values make sense
+			if (StringIsValidInt.isValid(k.substring(5,6))) { // make sure the values make sense
 				
 				// The pylon needs to be an integer
 				Integer pylon = Integer.valueOf(k.substring(5,6));

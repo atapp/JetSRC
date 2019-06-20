@@ -11,9 +11,12 @@ public class StoreFactory {
 	// Precondition: String type is A-A, A-G or Other | String name is name of store | String releaseLimits is comma delimited list of limits
 	// Postcondition: A new sub class of Store is created
 	// Throws: ConfigFileFormatException
-	
-	public static Store getStore(String type, String name, String releaseLimits) throws ConfigFileFormatException {
-		
+	//storeFromConfigArray[1], storeFromConfigArray[0], storeFromConfigArray[2]
+	public static Store getStore(Integer storeCode, String storeFromConfig) throws ConfigFileFormatException {
+		String[] storeFromConfigArray = storeFromConfig.split("\\|");
+		String type = storeFromConfigArray[1];
+		String name = storeFromConfigArray[0];
+		String releaseLimits = storeFromConfigArray[2];
 		// split release limits into array
 		String[] releaseLimitArray= releaseLimits.split(",");
 		
@@ -29,11 +32,11 @@ public class StoreFactory {
 		
 		// Return corresponding subclass 
 		if ("A-A".equalsIgnoreCase(type)) {
-			return new AAStore(name, Double.valueOf(releaseLimitArray[0]), Double.valueOf(releaseLimitArray[2]));
+			return new AAStore(storeCode, storeFromConfig, name, Double.valueOf(releaseLimitArray[0]), Double.valueOf(releaseLimitArray[2]));
 		} else if ("A-G".equalsIgnoreCase(type)) {
-			return new AGStore(name, Double.valueOf(releaseLimitArray[0]), Double.valueOf(releaseLimitArray[1]), Double.valueOf(releaseLimitArray[2]), releaseLimitArray[3]);
+			return new AGStore(storeCode, storeFromConfig, name, Double.valueOf(releaseLimitArray[0]), Double.valueOf(releaseLimitArray[1]), Double.valueOf(releaseLimitArray[2]), releaseLimitArray[3]);
 		} else {
-			return new OtherStore(name, Double.valueOf(releaseLimitArray[0]));
+			return new OtherStore(storeCode, storeFromConfig, name, Double.valueOf(releaseLimitArray[0]));
 		}
 	}
 }

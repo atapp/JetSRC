@@ -8,8 +8,8 @@ public class OtherStore extends Store {
 	private static final long serialVersionUID = -7400520617158230457L;
 	private String type = "Other Store";
 	
-	public OtherStore(String name, Double releaseLimit) {
-		super(name, releaseLimit);
+	public OtherStore(Integer storeCode, String code, String name, Double releaseLimit) {
+		super(storeCode, code, name, releaseLimit);
 	}
 	
 	public OtherStore() {};

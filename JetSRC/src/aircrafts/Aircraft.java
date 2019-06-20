@@ -113,9 +113,8 @@ public class Aircraft implements Serializable {
 		Store store;
 		Integer storeCode = Integer.valueOf(storeInput[1]);
 		String storeFromConfig = configurationManager.storesCodes.get(storeCode);
-		String[] storeFromConfigArray = storeFromConfig.split("\\|");
 		try {
-			store = StoreFactory.getStore(storeFromConfigArray[1], storeFromConfigArray[0], storeFromConfigArray[2]);
+			store = StoreFactory.getStore(storeCode, storeFromConfig);
 		} catch (ConfigFileFormatException e) {
 			e.printStackTrace();
 			return false;
@@ -174,6 +173,20 @@ public class Aircraft implements Serializable {
 
 	public void setCurrentParameters(HashMap<String, Double> currentParameters) {
 		this.currentParameters = currentParameters;
+	}
+	
+	public HashMap<String, String> getStoresHashMap(){
+		HashMap<String, String> storesHashMap = new HashMap<>();
+		for (int i = 0; i < this.getNumberOfPylons(); i++) {
+			Pylon pylon = this.pylons.get(i+1);
+			if (pylon.getStores().size() > 0){
+				for (int j = 0; j < pylon.getStores().size(); j++) {
+					String storeCodeString = pylon.getStores().get(0).getStoreCodeInteger() + "|" + pylon.getStores().get(0).getStoreCodeString();
+					storesHashMap.put(String.valueOf(pylon.location), storeCodeString);
+				}
+			}
+		}
+		return storesHashMap;
 	}
 	
 }

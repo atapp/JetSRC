@@ -9,8 +9,8 @@ public class AAStore extends Store implements Jettisonable {
 	private String type = "A/A Store";
 	private Double jettisonLimitDouble;
 	
-	public AAStore(String name, Double carriageLimit, Double jettisonLimit) {
-		super(name, carriageLimit);
+	public AAStore(Integer storeCode, String code, String name, Double carriageLimit, Double jettisonLimit) {
+		super(storeCode, code, name, carriageLimit);
 		this.jettisonLimitDouble = jettisonLimit;
 	}
 	

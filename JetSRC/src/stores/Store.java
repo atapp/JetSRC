@@ -17,11 +17,15 @@ public abstract class Store implements Serializable{
 	private static final long serialVersionUID = 3L;
 	protected String name = "Generic Store";
 	private Double carriageLimit;
+	public String storeCodeString;
+	public Integer storeCodeInteger;
 	
 	public Store() {
 	}
 	
-	public Store(String name, Double carriageLimit) {
+	public Store(Integer storeInteger, String code, String name, Double carriageLimit) {
+		this.storeCodeInteger = storeInteger;
+		this.storeCodeString = code;
 		this.name = name;
 		this.carriageLimit = carriageLimit;
 	}
@@ -54,4 +58,21 @@ public abstract class Store implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public String getStoreCodeString() {
+		return storeCodeString;
+	}
+
+	public void setConfigCodeString(String storeCodeString) {
+		this.storeCodeString = storeCodeString;
+	}
+
+	public Integer getStoreCodeInteger() {
+		return storeCodeInteger;
+	}
+
+	public void setStoreCodeInteger(Integer storeCodeInteger) {
+		this.storeCodeInteger = storeCodeInteger;
+	}
+	
 }
