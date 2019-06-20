@@ -64,7 +64,7 @@ public class ApprovedConfigurationsConnection extends DatabaseConnection{
 				e.printStackTrace();
 			}
 		} else {
-			throw new ConfigFileFormatException("Approved Configs CSV file", "Problem reading file, confirm each row has 11 values");
+			throw new ConfigFileFormatException("Approved Configigurations CSV file", "Problem reading file, confirm each row has 11 values");
 		}
 	}
 	
