@@ -16,8 +16,8 @@ class XMLSerializerTest {
 	@TempDir
     static Path sharedTempDir;
 
-	Store store = new AGStore("test", 0.0, 0.0, 0.0, "test");
-	Store store2 = new AGStore("test1", 0.0, 0.0, 0.0, "test");
+	Store store = new AGStore(1, "1|AIM-9M|A-A|1.8,0,0,0","test", 1.1, 1.1, 1.1, "2G to 45");
+	Store store2 = new AGStore(1, "1|AIM-9M|A-A|1.8,0,0,0","test", 1.1, 1.1, 1.1, "2G to 45");
 	XMLSerializer xmsSerializer = new XMLSerializer();
 
 	
