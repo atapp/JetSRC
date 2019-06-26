@@ -75,4 +75,17 @@ public abstract class Store implements Serializable{
 		this.storeCodeInteger = storeCodeInteger;
 	}
 	
+	@Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return this.name == ((Store) obj).name;
+    }
+
+    @Override
+    public int hashCode() {
+        return 7 + 5*storeCodeInteger; // 5 and 7 are random prime numbers
+    }
+	
 }

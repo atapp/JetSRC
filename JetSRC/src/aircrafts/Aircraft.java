@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import configuration_manager.ConfigFileFormatException;
@@ -189,4 +190,10 @@ public class Aircraft implements Serializable {
 		return storesHashMap;
 	}
 	
+	// helper method to confirm aircraft free from stores
+	public boolean isClean() {
+		for (Map.Entry<Integer, Pylon> e : pylons.entrySet())
+			if (!e.getValue().isEmpty()) return false;
+		return true;
+	}
 }

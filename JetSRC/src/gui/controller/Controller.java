@@ -2,7 +2,15 @@
 
 package gui.controller;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,11 +18,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FileUtils;
+
 import gui.model.GuiModel;
 import gui.model.TableDataModel;
 import gui.model.TableDataModel.TableData;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -31,24 +43,34 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
+import stores.AAStore;
+import stores.AGStore;
+import stores.OtherStore;
+import stores.Store;
 import utils.ApprovedConfigurationsConnection;
 import utils.GenericSingletonFactory;
 import utils.StdOut;
 import utils.StringIsValidInt;
 
-public class Controller implements Initializable {
+public class Controller implements Initializable, ClipboardOwner {
 	
 	// CONSTANTS
 	String storeInputRegexString = "\\|";
 	String displayAreaErrorString = "Problem loading Store to Pylon, contact support";
+	String emptyPylonDisplayString = "";
 	
 	// CLASS FXML REFERENCES
 	// See main.fxml for fx:id references
@@ -78,6 +100,13 @@ public class Controller implements Initializable {
 	public Label labelStn7;
 	public Label labelStn8;
 	public Label labelStn9;
+	// Lower table area
+	public TableView<Store> tableArea;
+	public TableColumn<Store, String> wpnColumn;
+	public TableColumn<Store, String> carriageColumn;
+	public TableColumn<Store, String> releaseColumn;
+	public TableColumn<Store, String> jettisonColumn;
+	public TableColumn<Store, String> seperationColumn;
 	// confirm delete checkbox
 	public CheckBox confirmDeleteCheckBox;
 	// Lower display area
@@ -90,7 +119,11 @@ public class Controller implements Initializable {
 	private HashMap<Integer, Label> labelHashMap = new HashMap<Integer, Label>();
 	// Model for interaction with data
 	private GuiModel dataGuiModel;
-
+	// Observable list for table data
+	
+	
+	// SETUP
+	
 	// Initialize function to setup data
 	@SuppressWarnings("unchecked")
 	@Override
@@ -124,11 +157,12 @@ public class Controller implements Initializable {
 		
 		// Iterate over combo box to add approved configs
 		updateAircraftDropDowns();
+		setupTableColumns();
 	}
 	
 	// METHODS
 	
-	// ACTION EVENTS
+	// ACTION EVENTS INITIALIZED BY USER INPUTS
 	
 	// Action event for when pylon item selected	
 	public void pylonChanged(ActionEvent event) {
@@ -155,6 +189,7 @@ public class Controller implements Initializable {
 		filterAircraftPylons();
 		
 	}
+	
 	// Action event for when selection made in saved configurations drop down.
 	@SuppressWarnings("unchecked")
 	public void loadConfig(ActionEvent event) {
@@ -165,6 +200,7 @@ public class Controller implements Initializable {
 		updateUI();
 		updateTextArea(dataGuiModel.config.aircraft.toString());
 	}
+	
 	// Action event for when save config button is clicked
 	public void saveConfig(ActionEvent event) {
 		dataGuiModel.saveCurrentAircraft();
@@ -172,6 +208,7 @@ public class Controller implements Initializable {
 		savedConfigs.getItems().clear();
 		savedConfigs.getItems().addAll(savedConfigsObservableList);
 	}
+	
 	// Action event when store label is clicked to remove store
 	public void removeStore(MouseEvent event) {
 		
@@ -179,7 +216,10 @@ public class Controller implements Initializable {
 		Label label = (Label)event.getSource();
 		String labelId = label.getId();
 		String pylonString = labelId.substring(8);
-		// remove store
+		
+		// now we remove the store
+		
+		// confirm with user if CONFIRM ON DELETE option selected
 		if (confirmDeleteCheckBox.isSelected()) {
 			Alert alert = new Alert(AlertType.CONFIRMATION, "Delete store from Station " + pylonString + "?", ButtonType.YES, ButtonType.NO);
 			alert.showAndWait();
@@ -189,6 +229,7 @@ public class Controller implements Initializable {
 					Integer pylonInteger = Integer.valueOf(pylonString);
 					clearPylonDropdown(pylonInteger);
 					updateTextArea(dataGuiModel.config.aircraft.toString());
+					filterAircraftPylons();
 					updateUI();
 				}
 			}
@@ -198,13 +239,15 @@ public class Controller implements Initializable {
 				Integer pylonInteger = Integer.valueOf(pylonString);
 				clearPylonDropdown(pylonInteger);
 				updateTextArea(dataGuiModel.config.aircraft.toString());
+				filterAircraftPylons();
 				updateUI();
 			}
 		}
 	}
 	
-	// MENU EVENTS
+	// HEADER MENU EVENTS
 	
+	// debug view for database
 	public void viewDatabase(ActionEvent e) {
 		Stage tableStage = new Stage();
 		Stage stage = (Stage) displayArea.getScene().getWindow();
@@ -246,21 +289,120 @@ public class Controller implements Initializable {
         tableStage.show();
 	}
 	
-	// DATABASE INTERACTIONS
-	// get filtered drop downs
+	public void copyCRJ() {
+		StringBuilder clipboardString = new StringBuilder();
+		ObservableList<TableColumn<Store, ?>> columns = tableArea.getColumns();
+
+		columns.forEach(c->{
+			clipboardString.append(c.getText());
+			clipboardString.append('\t');
+		});
+		clipboardString.append('\n');
+        for (Store store : tableArea.getItems()) {
+        	// Name
+        	clipboardString.append(store.getName());
+            clipboardString.append('\t');
+            // CAR
+            clipboardString.append(store.getCarriageLimit());
+            clipboardString.append('\t');
+            // REL
+            if (store instanceof AGStore) {
+            	clipboardString.append(((AGStore)store).getReleaseLimitDouble().toString());
+            	clipboardString.append('\t');
+            } else {
+            	clipboardString.append("NA");
+            	clipboardString.append('\t');
+            }
+            //JET
+            if (store instanceof OtherStore)
+            	clipboardString.append("NA");
+        		clipboardString.append('\t');
+        	if (store instanceof AAStore)
+        		clipboardString.append(((AAStore)store).getJettisonLimitDouble().toString());
+        		clipboardString.append('\t');
+		    if (store instanceof AGStore)
+		    	clipboardString.append(((AGStore)store).getJettisonLimitDouble().toString());
+		    	clipboardString.append('\t');
+	     	// SEP
+		    if (store instanceof AGStore) {
+		    	clipboardString.append(((AGStore)store).getSeperationString());
+		    	clipboardString.append('\t');
+		    } else {
+		    	clipboardString.append("NA");
+        		clipboardString.append('\t');
+		    }
+		    	
+		     	
+            clipboardString.append('\n');
+
+        }
+
+        // create clipboard content
+        final ClipboardContent clipboardContent = new ClipboardContent();
+        clipboardContent.putString(clipboardString.toString());
+        // StringSelection stringSelection = new StringSelection(clipboardString.toString());
+        StringSelection stringSelection = new StringSelection(clipboardString.toString());
+        // set clipboard content
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, this);
+        //StdOut.println(clipboardString.toString());
+	}
+	 public void print() {
+		 
+	 }
+	 public void copyConfig() {
+		 
+	 }
+	 
+	 // Import external files
+	 public void importConfig() {
+		//Handle open button action.
+		 FileChooser fileChooser = new FileChooser();
+		 Stage stage = (Stage) displayArea.getScene().getWindow();
+		 File selectedFile = fileChooser.showOpenDialog(stage);
+		 String fileName = selectedFile.getName();
+		 String fullPath = dataGuiModel.config.AIRCRAFT_SAVE_PATH.concat(fileName);
+		 File file = new File(fullPath);
+		 try {
+			FileUtils.copyFile(selectedFile, file);
+			StdOut.print("file saved");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	 }
+	 public void exportConfig() {
+		 
+	 }
+	 public void quit() {
+		 
+	 }
+	 public void about() {
+		 
+	 }
 	
+	// DATABASE INTERACTIONS 
+	
+	// get filtered drop downs, needed for when user selects a store 
+	// and there are restrictions to the other available store.
 	private void filterAircraftPylons() {
-		// We need a HashMap containing just the changed pylons and their values
-		HashMap<String, String> currentStores = dataGuiModel.config.aircraft.getStoresHashMap();
 		
-		// We send this to the datamodel to filter the database
-		dataGuiModel.filterAircraftDropDowns(currentStores);
-		
-		updateAircraftDropDowns();
+		if 	(dataGuiModel.config.aircraft.isClean()) {
+			dataGuiModel.buildPylonMap();
+			updateAircraftDropDowns();
+		} else {
+			// We need a HashMap containing just the changed pylons and their values
+			HashMap<String, String> currentStores = dataGuiModel.config.aircraft.getStoresHashMap();
+			
+			// We send this to the datamodel to filter the database
+			dataGuiModel.filterAircraftDropDowns(currentStores);
+			
+			updateAircraftDropDowns();
+		}
 	}
 	
 	// HELPER METHODS
-	// Get pane nodes
+	// Get pane nodes (we need this to access all items in a specific pane)
 	public static <T extends Pane> List<Node> paneNodes(T parent) {
         return paneNodes(parent, new ArrayList<Node>());
     }
@@ -277,18 +419,23 @@ public class Controller implements Initializable {
         return nodes;
     }
     
+    // things have changed so we need to update the UI
     private void updateUI() {
     	updateAircraftLabels();
+    	updateTableArea();
     }
     
+    // or we need to specifially update the text area
     private void updateTextArea(String string) {
     	displayArea.setText(string); 
     }
     
+    // we want the pylon drop downs to not remained selected
     private void clearPylonDropdown(Integer pylon) {
     	comboBoxes.get(pylon).setValue(null);
     }
     
+    // the labels below the dropdowns reflect what is actually selected
     private void updateAircraftLabels() {
     	labelHashMap.forEach((k,v) -> {
     		if (!dataGuiModel.config.aircraft.getPylons().get(k).getStores().isEmpty()) {
@@ -296,12 +443,13 @@ public class Controller implements Initializable {
     			Tooltip tooltip = new Tooltip("Click to remove");
     			v.setTooltip(tooltip);
 			} else {
-				v.setText("Empty");
+				v.setText(emptyPylonDisplayString);
 			}
     		
     	});
     };
     
+    // the dropdowns should reflect what is available to the user
     private void updateAircraftDropDowns() {
     	Platform.runLater(() -> {
             try {
@@ -337,4 +485,64 @@ public class Controller implements Initializable {
             }
         });
     }
+    
+    // TABLE VIEW HELPERS
+    
+    private void setupTableColumns() {
+    	wpnColumn.setCellValueFactory(new Callback<CellDataFeatures<Store, String>, ObservableValue<String>>() {
+    	     public ObservableValue<String> call(CellDataFeatures<Store, String> p) {
+    	         return new ReadOnlyObjectWrapper<String>(p.getValue().getName());
+    	     }
+    	});
+    	carriageColumn.setCellValueFactory(new Callback<CellDataFeatures<Store, String>, ObservableValue<String>>() {
+			 public ObservableValue<String> call(CellDataFeatures<Store, String> p) {
+			     return new ReadOnlyObjectWrapper<String>(p.getValue().getCarriageLimit().toString());
+			 }
+   	  	});
+    	releaseColumn.setCellValueFactory(new Callback<CellDataFeatures<Store, String>, ObservableValue<String>>() {
+			 public ObservableValue<String> call(CellDataFeatures<Store, String> p) {
+			     if (p.getValue() instanceof AGStore)
+			    	 return new ReadOnlyObjectWrapper<String>(((AGStore)p.getValue()).getReleaseLimitDouble().toString());
+			     return new ReadOnlyObjectWrapper<String>("");
+			 }
+   	  	});
+    	jettisonColumn.setCellValueFactory(new Callback<CellDataFeatures<Store, String>, ObservableValue<String>>() {
+			 public ObservableValue<String> call(CellDataFeatures<Store, String> p) {
+			     if (p.getValue() instanceof OtherStore)
+			    	 return new ReadOnlyObjectWrapper<String>("");
+			     if (p.getValue() instanceof AAStore)
+			    	 return new ReadOnlyObjectWrapper<String>(((AAStore)p.getValue()).getJettisonLimitDouble().toString());
+			     if (p.getValue() instanceof AGStore)
+			    	 return new ReadOnlyObjectWrapper<String>(((AGStore)p.getValue()).getJettisonLimitDouble().toString());
+			     return new ReadOnlyObjectWrapper<String>("");		
+			 }
+   	  	});
+    	seperationColumn.setCellValueFactory(new Callback<CellDataFeatures<Store, String>, ObservableValue<String>>() {
+			 public ObservableValue<String> call(CellDataFeatures<Store, String> p) {
+			     if (p.getValue() instanceof AGStore)
+			    	 return new ReadOnlyObjectWrapper<String>(((AGStore)p.getValue()).getSeperationString());
+			     return new ReadOnlyObjectWrapper<String>("");		
+			 }
+   	  	});
+    }
+    
+    private void updateTableArea() {
+    	if 	(dataGuiModel.config.aircraft.isClean()) {
+			tableArea.getItems().clear();
+		} else {
+			tableArea.getItems().clear();
+			dataGuiModel.config.aircraft.getPylons().forEach((i,p) -> {
+				if (!p.isEmpty())
+					if (!tableArea.getItems().contains(p.getStores().get(0))) {
+						tableArea.getItems().add(p.getStores().get(0));
+				}
+			});
+		}
+    }
+
+	@Override
+	public void lostOwnership(Clipboard clipboard, Transferable contents) {
+		// do nothing
+		
+	}
 }

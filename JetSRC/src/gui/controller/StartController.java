@@ -22,21 +22,21 @@ public class StartController implements Initializable{
 	public BorderPane main;
 	public ProgressIndicator progressIndicator;
 	public Label errorLabel;
-	
 		
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		progressIndicator.setProgress(0.4);
+		progressIndicator.setProgress(0);
 		Task<Parent> loadTask = new Task<Parent>() {
 	        @Override
 	        public Parent call() throws IOException, InterruptedException {
 
 	            // prepare the aircraft model for loading:
 	        	GuiModel dataGuiModel = GenericSingletonFactory.getInstance(GuiModel.class);
+	        	progressIndicator.setProgress(0.2); 
 	        	dataGuiModel.setup();
-	      
-	            
+	        	progressIndicator.setProgress(0.5);
 	            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/main.fxml"));
+	            progressIndicator.setProgress(0.7);
 	            Parent root = loader.load();
 	            return root ;
 	        }
@@ -45,6 +45,7 @@ public class StartController implements Initializable{
 	    loadTask.setOnSucceeded(e -> {
 	        Scene scene = new Scene(loadTask.getValue());
 	        Stage stage = new Stage();
+	        progressIndicator.setProgress(1);
 	        stage.setScene(scene);
 	        final Stage oldStage = (Stage) main.getScene().getWindow();
 	        oldStage.close();

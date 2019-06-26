@@ -27,39 +27,25 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
+                  <MenuItem mnemonicParsing="false" onAction="#print" text="Print" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
+            <MenuItem mnemonicParsing="false" onAction="#importConfig" text="Import Config" />
+                  <MenuItem mnemonicParsing="false" onAction="#exportConfig" text="Export Config" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#quit" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" onAction="#copyCRJ" text="Copy CRJ Values" />
+            <MenuItem mnemonicParsing="false" onAction="#copyConfig" text="Copy Config Detail" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
                   <MenuItem fx:id="menuViewDatabase" mnemonicParsing="false" onAction="#viewDatabase" text="View Database" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="About JetSRC" />
+            <MenuItem mnemonicParsing="false" onAction="#about" text="About JetSRC" />
           </items>
         </Menu>
       </menus>
@@ -70,6 +56,9 @@
                <image>
                   <Image url="./gui/resources/LOGO1.jpg" />
                </image>
+               <HBox.margin>
+                  <Insets left="8.0" />
+               </HBox.margin>
             </ImageView>
             <Region style="-fx-background-color: ffffff;" HBox.hgrow="ALWAYS" />
             <Label text="Saved Configs:" />
@@ -97,9 +86,9 @@
                         </ImageView>
                         <AnchorPane fx:id="stationsPane" StackPane.alignment="TOP_CENTER">
                            <children>
-                              <Label fx:id="descriptionLabel" layoutX="406.0" layoutY="17.0">
+                              <Label fx:id="descriptionLabel" layoutX="14.0" layoutY="5.0" text="CF-18 0.1">
                                  <font>
-                                    <Font name="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="14.0" />
                                  </font>
                               </Label>
                               <ComboBox fx:id="stn9" layoutX="14.0" layoutY="139.0" onAction="#pylonChanged" prefWidth="100.0" />
@@ -111,15 +100,15 @@
                               <ComboBox fx:id="stn2" layoutX="686.0" layoutY="166.0" onAction="#pylonChanged" prefWidth="100.0" />
                               <ComboBox fx:id="stn1" layoutX="786.0" layoutY="139.0" onAction="#pylonChanged" prefWidth="100.0" />
                               <ComboBox fx:id="stn5" layoutX="400.0" layoutY="230.0" onAction="#pylonChanged" prefWidth="100.0" />
-                              <Label fx:id="labelStn9" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="180.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="93.0" text="Empty" />
-                              <Label fx:id="labelStn8" alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" text="Empty" />
-                              <Label fx:id="labelStn7" alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" text="Empty" />
-                              <Label fx:id="labelStn6" alignment="CENTER" contentDisplay="CENTER" layoutX="311.0" layoutY="236.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" text="Empty" />
-                              <Label fx:id="labelStn5" alignment="CENTER" contentDisplay="CENTER" layoutX="404.0" layoutY="268.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="93.0" text="Empty" />
-                              <Label fx:id="labelStn4" alignment="CENTER" contentDisplay="CENTER" layoutX="499.0" layoutY="244.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" text="Empty" />
-                              <Label fx:id="labelStn3" alignment="CENTER" contentDisplay="CENTER" layoutX="593.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="79.0" text="Empty" />
-                              <Label fx:id="labelStn2" alignment="CENTER" contentDisplay="CENTER" layoutX="688.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" text="Empty" />
-                              <Label fx:id="labelStn1" alignment="CENTER" contentDisplay="CENTER" layoutX="786.0" layoutY="180.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" text="Empty" />
+                              <Label fx:id="labelStn9" alignment="CENTER" contentDisplay="CENTER" layoutX="17.0" layoutY="180.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="93.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn8" alignment="CENTER" contentDisplay="CENTER" layoutX="116.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn7" alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn6" alignment="CENTER" contentDisplay="CENTER" layoutX="311.0" layoutY="236.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn5" alignment="CENTER" contentDisplay="CENTER" layoutX="404.0" layoutY="268.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="93.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn4" alignment="CENTER" contentDisplay="CENTER" layoutX="499.0" layoutY="244.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="92.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn3" alignment="CENTER" contentDisplay="CENTER" layoutX="593.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="79.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn2" alignment="CENTER" contentDisplay="CENTER" layoutX="688.0" layoutY="205.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
+                              <Label fx:id="labelStn1" alignment="CENTER" contentDisplay="CENTER" layoutX="786.0" layoutY="180.0" onMouseClicked="#removeStore" prefHeight="17.0" prefWidth="100.0" style="-fx-cursor: hand;" textFill="#005999" underline="true" />
                               <CheckBox fx:id="confirmDeleteCheckBox" layoutX="744.0" layoutY="258.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="150.0" selected="true" text="Confirm on delete" />
                            </children>
                         </AnchorPane>
@@ -133,13 +122,13 @@
       <HBox alignment="CENTER" spacing="2.0">
          <children>
             <TextArea fx:id="displayArea" HBox.hgrow="ALWAYS" />
-            <TableView>
+            <TableView fx:id="tableArea">
               <columns>
-                <TableColumn prefWidth="75.0" text="WPN" />
-                <TableColumn prefWidth="75.0" text="CAR" />
-                  <TableColumn prefWidth="75.0" text="REL" />
-                  <TableColumn prefWidth="75.0" text="JET" />
-                  <TableColumn prefWidth="75.0" text="SEP" />
+                <TableColumn fx:id="wpnColumn" prefWidth="75.0" text="WPN" />
+                <TableColumn fx:id="carriageColumn" prefWidth="75.0" text="CAR" />
+                  <TableColumn fx:id="releaseColumn" prefWidth="75.0" text="REL" />
+                  <TableColumn fx:id="jettisonColumn" prefWidth="75.0" text="JET" />
+                  <TableColumn fx:id="seperationColumn" prefWidth="75.0" text="SEP" />
               </columns>
             </TableView>
          </children>

@@ -10,9 +10,7 @@ import org.junit.jupiter.api.Test;
 import aircrafts.Aircraft;
 import aircrafts.Pylon;
 import configuration_manager.ConfigurationManager;
-import sun.print.PSPrinterJob.PluginPrinter;
 import utils.GenericSingletonFactory;
-import utils.StdOut;
 
 class GuiModelTest {
 	

@@ -244,7 +244,7 @@ public class GuiModel {
 	}
 	
 	// Setup helper
-	private void buildPylonMap() {
+	public void buildPylonMap() {
 		for (int i = 0; i < config.aircraft.getNumberOfPylons(); i++) {
 			// take pylon number
 			int pylonNumber = i+1;

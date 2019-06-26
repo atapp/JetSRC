@@ -23,7 +23,7 @@ public class ConfigurationManager {
 	final static String AIRCRAFT_TYPES_FILE = "src/configuration_files/aircraft_types.txt";
 	final static String STORES_CODES_FILE = "src/configuration_files/store_codes.txt";
 	final static String AIRCRAFT_CONFIGURATIONS_FILE = "src/configuration_files/aircraft_configurations.txt";
-	final static String AIRCRAFT_SAVE_PATH = "src/saved_aircraft/";
+	public final static String AIRCRAFT_SAVE_PATH = "src/saved_aircraft/";
 	final static String APPROVED_CONFIGS_PATH = "src/configuration_files/weapon_table_unclassified.csv";
 	
 	// CLASS INVARIANTS

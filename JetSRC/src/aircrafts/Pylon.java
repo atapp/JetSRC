@@ -57,4 +57,8 @@ public class Pylon implements Serializable{
 		this.stores = stores;
 	}
 	
+	public boolean isEmpty() {
+		return stores.isEmpty();
+	}
+	
 }
